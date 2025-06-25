@@ -32,6 +32,10 @@
                                     <th
                                         class="text-sm text-center text-uppercase text-secondary font-weight-bolder opacity-7">
                                         الاستفسار</th>
+                                    <th
+                                        class="text-sm text-center text-uppercase text-secondary font-weight-bolder opacity-7">
+                                        الاجراء</th>
+
 
                                 </tr>
                             </thead>
@@ -51,7 +55,18 @@
                                                 <h6 class="mb-0 text-sm text-center">{{ $item->email }}</h6>
                                             </td>
                                             <td>
-                                                <h6 class="mb-0 text-sm text-center">{{ $item->message }}</h6>
+                                                <h6 class="mb-0 text-sm text-center">
+                                                    {{ Str::limit($item->message, 50) }}
+                                                    @if (Str::length($item->message) > 50)
+                                                        <a href="{{ route('contact.show', $item->id) }}">المزيد</a>
+                                                    @endif
+                                                </h6>
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="{{ route('contact.show', $item->id) }}"
+                                                    class="px-3 py-1 text-xs text-white badge badge-sm bg-gradient-info font-weight-bold">
+                                                    عرض </a>
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -61,7 +76,7 @@
                     </div>
 
                 </div>
-                <div class="d-flex justify-content-center mt-4">
+                <div class="mt-4 d-flex justify-content-center">
                     {{ $data->links('pagination::bootstrap-4') }}
                 </div>
 

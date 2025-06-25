@@ -51,16 +51,25 @@
                         <div class="p-3 mb-3 bg-white border rounded shadow-sm card">
                             {{-- <h6 class="mb-3 fw-bold text-primary">خدمة {{ $index + 1 }}</h6> --}}
                             <div class="row g-2">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <input type="text" class="form-control form-control-sm" placeholder="اسم الخدمة"
                                         wire:model="rooms0.{{ $index }}.name">
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="text" class="form-control form-control-sm" placeholder="السعر"
+                                    <input type="text" class="form-control form-control-sm" placeholder="سعر التكلفة"
                                         wire:model="rooms0.{{ $index }}.price">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control form-control-sm" placeholder="سعر البيع"
+                                        wire:model="rooms0.{{ $index }}.sale_price">
                                 </div>
 
                                 <div class="col-md-2">
+                                    <button type="button" class="btn btn-warning btn-sm"
+                                        wire:click="updateService1({{ $index }})">حفظ</button>
+                                </div>
+                                <div class="col-md-2">
+
                                     <button type="button" class="btn btn-danger btn-sm"
                                         wire:click="removeService1({{ $rooms0[$index]['id'] }})">حذف</button>
                                 </div>
@@ -73,19 +82,24 @@
                         <div class="p-3 mb-3 bg-white border rounded shadow-sm card">
                             <h6 class="mb-3 fw-bold text-primary">خدمة {{ $index + 1 }}</h6>
                             <div class="row g-2">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <input type="text" class="form-control form-control-sm" placeholder="اسم الخدمة"
                                         wire:model="rooms.{{ $index }}.name">
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="text" class="form-control form-control-sm" placeholder="السعر"
+                                    <input type="text" class="form-control form-control-sm" placeholder="سعر التكلفة"
                                         wire:model="rooms.{{ $index }}.price">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control form-control-sm" placeholder="سعر البيع"
+                                        wire:model="rooms.{{ $index }}.sale_price">
                                 </div>
                                 <div class="col-md-2">
                                     <input type="hidden" class="form-control form-control-sm"
                                         wire:model="rooms.{{ $index }}.hotel_id">
                                 </div>
                                 <div class="col-md-2">
+
                                     <button type="button" class="btn btn-danger btn-sm"
                                         wire:click="removeRoom({{ $index }})">حذف</button>
                                 </div>
@@ -110,11 +124,11 @@
                             <div class="p-3 mb-3 bg-white border rounded shadow-sm card">
                                 <h6 class="mb-3 fw-bold text-secondary">غرفة {{ $index + 1 }}</h6>
                                 <div class="row g-2">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <input type="text" class="form-control form-control-sm"
                                             placeholder="نوع الغرفة" wire:model="rooms2.{{ $index }}.type">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <input type="text" class="form-control form-control-sm"
                                             placeholder="رقم الغرفة" wire:model="rooms2.{{ $index }}.number">
                                     </div>
@@ -126,15 +140,25 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <input type="number" class="form-control form-control-sm"
                                             placeholder="عدد الأسرة" wire:model="rooms2.{{ $index }}.beds">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <input type="text" class="form-control form-control-sm"
-                                            placeholder="السعر" wire:model="rooms2.{{ $index }}.price">
+                                            placeholder="سعر التكلفة" wire:model="rooms2.{{ $index }}.price">
                                     </div>
-                                    <div class="col-md-1 text-end">
+                                    <div class="col-md-1">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="سعر البيع"
+                                            wire:model="rooms2.{{ $index }}.sale_price">
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <button type="button" class="btn btn-warning btn-sm"
+                                            wire:click="updateRoom2({{ $index }})">حفظ</button>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+
                                         <button type="button" class="btn btn-danger btn-sm"
                                             wire:click="removeRoom2({{ $rooms2[$index]['id'] }})">حذف</button>
                                     </div>
@@ -169,9 +193,15 @@
                                     </div>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control form-control-sm"
-                                            placeholder="السعر" wire:model="rooms1.{{ $index }}.price">
+                                            placeholder="سعر التكلفة" wire:model="rooms1.{{ $index }}.price">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="سعر البيع"
+                                            wire:model="rooms1.{{ $index }}.sale_price">
                                     </div>
                                     <div class="col-md-1 text-end">
+
                                         <button type="button" class="btn btn-danger btn-sm"
                                             wire:click="removeRoom1({{ $index }})">حذف</button>
                                     </div>

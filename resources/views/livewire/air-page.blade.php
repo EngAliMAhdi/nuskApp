@@ -22,7 +22,7 @@
                         <thead>
                             <tr>
                                 <th class="text-sm text-uppercase text-secondary font-weight-bolder opacity-7">اسم
-                                    اسم الطائرة</th>
+                                    الطائرة</th>
                                 <th
                                     class="text-sm text-center text-uppercase text-secondary font-weight-bolder opacity-7">
                                     رقم الطائرة</th>
@@ -89,7 +89,7 @@
                     </table>
                 </div>
             </div>
-            <div class="d-flex justify-content-center mt-4">
+            <div class="mt-4 d-flex justify-content-center">
                 {{ $data->links('pagination::bootstrap-4') }}
             </div>
 

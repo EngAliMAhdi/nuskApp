@@ -26,9 +26,9 @@ return new class extends Migration
             'facebook' => 'https://facebook.com/example',
             'x' => 'https://x.com/example',
             'instagram' => 'https://instagram.com/example',
-            'whatsapp' => 'https://wa.me/966500000000',
-            'email' => 'example@email.com',
-            'phone' => '+966500000000',
+            'whatsapp' => 'https://wa.me/9665555135162',
+            'email' => 'Amer_albaher@hotmail.com',
+            'phone' => '+966555149970',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

@@ -12,6 +12,7 @@ class Service extends Model
     protected $fillable = [
         'name',
         'price',
+        'sale_price',
         'hotel_id',
         'added_by',
         'updated_by',
@@ -33,5 +34,4 @@ class Service extends Model
     {
         return $this->belongsToMany(Room::class, 'room_service');
     }
-   
 }

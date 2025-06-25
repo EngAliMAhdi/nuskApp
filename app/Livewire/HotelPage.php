@@ -4,9 +4,12 @@ namespace App\Livewire;
 
 use App\Models\Hotel;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class HotelPage extends Component
 {
+    use WithPagination;
+
     public $name;
     public $city;
 
@@ -19,7 +22,7 @@ class HotelPage extends Component
         if ($this->city) {
             $query->where('city', $this->city);
         }
-        $data = $query->get();
+        $data = $query->paginate(10);
         return view('livewire.hotel-page', compact('data'));
     }
 }

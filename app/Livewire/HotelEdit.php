@@ -45,7 +45,9 @@ class HotelEdit extends Component
             $this->rooms0[$index] = [
                 'name' => $serv->name,
                 'price' => $serv->price,
+                'sale_price' =>  $serv->sale_price,
                 'id' => $serv->id,
+
             ];
         }
         foreach ($data->rooms as $index => $serv) {
@@ -56,9 +58,9 @@ class HotelEdit extends Component
                 'type' => $serv->type,
                 'number' => $serv->number,
                 'beds' => $serv->beds_count,
+                'sale_price' =>  $serv->sale_price,
                 'service' => $serv->services->pluck('service_id')
             ];
-            // dd($serv->services->pluck('service_id'));
         }
     }
 
@@ -68,6 +70,7 @@ class HotelEdit extends Component
             'name' => '',
             'hotel_id' => '',
             'price' => '',
+            'sale_price' => '',
         ];
     }
 
@@ -78,6 +81,7 @@ class HotelEdit extends Component
         $this->rooms = array_values($this->rooms);
     }
 
+
     public function addRoom1()
     {
         $this->rooms1[] = [
@@ -85,6 +89,7 @@ class HotelEdit extends Component
             'number' => '',
             'beds' => '',
             'price' => '',
+            'sale_price' => '',
             'service' => []
         ];
     }
@@ -94,14 +99,40 @@ class HotelEdit extends Component
         $this->rooms1 = array_values($this->rooms1);
     }
 
-    public function removeRoom2($index)
+    public function updateRoom2($index)
     {
-        unset($this->rooms2[$index]);
-        $this->rooms = array_values($this->rooms2);
-        Room::where('id', $index)->delete();
-        session()->flash('success', 'تم الحذف  بنجاح!');
+        if (!isset($this->rooms2[$index])) {
+            session()->flash('error', 'الغرفة غير موجودة!');
+            return;
+        }
+
+        $roomData = $this->rooms2[$index];
+        if (empty($roomData['id'])) {
+            session()->flash('error', 'لا يمكن تحديث غرفة بدون معرف!');
+            return;
+        }
+        $room = Room::find($roomData['id']);
+
+        if (!$room) {
+            session()->flash('error', 'لم يتم العثور على الغرفة!');
+            return;
+        }
+        $room->update([
+            'type' => $roomData['type'] ?? '',
+            'number' => $roomData['number'] ?? '',
+            'beds' => $roomData['beds'] ?? 0,
+            'price' => $roomData['price'] ?? 0,
+            'sale_price' => $roomData['sale_price'] ?? 0,
+        ]);
+        if (!empty($roomData['service']) && is_array($roomData['service'])) {
+            $room->services()->sync($roomData['service']);
+        }
+
+        session()->flash('success', 'تم تحديث بيانات الغرفة والخدمات بنجاح!');
         return redirect()->route('hotels.edit', ['id' => $this->id]);
     }
+
+
 
     public function saveRoom()
     {
@@ -111,6 +142,7 @@ class HotelEdit extends Component
                 'cost_price' => $room['price'],
                 'beds_count' => $room['beds'],
                 'number' => $room['number'],
+                'sale_price' => $room['sale_price'],
                 'hotel_id' => $this->id,
                 'added_by' => Auth::id(),
             ]);
@@ -132,12 +164,30 @@ class HotelEdit extends Component
         session()->flash('success', 'تم الحذف  بنجاح!');
         return redirect()->route('hotels.edit', ['id' => $this->id]);
     }
+    public function updateService1($index)
+    {
+        if (!isset($this->rooms0[$index])) {
+            session()->flash('error', 'الخدمة غير موجودة!');
+            return;
+        }
+        $data = $this->rooms0[$index];
+        Service::where('id', $data['id'])->update([
+            'name' => $data['name'] ?? '',
+            'price' => $data['price'] ?? 0,
+            'sale_price' => $data['sale_price'] ?? 0,
+        ]);
+
+        session()->flash('success', 'تم تحديث الخدمة بنجاح!');
+        return redirect()->route('hotels.edit', ['id' => $this->id]);
+    }
+
     public function saveSerivce()
     {
         foreach ($this->rooms as $room) {
             Service::create([
                 'name' => $room['name'],
                 'price' => $room['price'],
+                'sale_price' => $room['sale_price'],
                 'hotel_id' => $this->id,
                 'added_by' => Auth::id(),
             ]);

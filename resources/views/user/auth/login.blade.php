@@ -1,86 +1,48 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.user')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>الشبول | تسجيل الدخول</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/fonts/ionicons/2.0.1/css/ionicons.min.css') }}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/dist/css/adminlte.min.css') }}">
-    <!-- Google Font: Source Sans Pro -->
-    <link href="{{ asset('assets/admin/fonts/SansPro/SansPro.min.css') }}" rel="stylesheet">
-</head>
-
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ route('login.user') }}"><b>نسك العمرة </b></a>
-        </div>
-        <!-- /.login-logo -->
-
-        <div class="card">
-
-            <div class="card-body login-card-body">
-                @if (Session::has('error'))
-                    <div class="alert alert-danger" role="alert">
-                        {{ Session::get('error') }}
-                    </div>
-                @endif
-                <p class="login-box-msg">تسجيل الدخول المستخدم </p>
-
-                <form action="{{ route('user.login') }}" method="post">
-                    @csrf
-                    <div class="mb-3 input-group">
-                        <input type="text" class="form-control" name="username" placeholder="اسم المستخدم">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @error('username')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                    <div class="mb-3 input-group">
-                        <input type="password" class="form-control" name="password" placeholder="كلمة المرور">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @error('password')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                    <!-- /.col -->
-                    <div class="">
-                        <button type="submit" class="btn btn-primary">تسجيل
-                            دخول</button>
-                    </div>
-                    <!-- /.col -->
+@section('content')
+    <section class="container flex flex-col items-center justify-center p-6 mx-auto">
+        <div class="flex flex-col w-full max-w-5xl gap-6 p-6 mb-6 bg-white rounded-lg shadow-lg md:flex-row">
+            <!-- Left Section -->
+            <div class="flex flex-col items-center justify-center flex-1 p-10 sm:mb-3 ">
+                <img src="{{ asset('image/bg.avif') }}" class="h-80 w-80" alt="" srcset="">
             </div>
-            </form>
+            <!-- Right Section -->
+            <div class="flex flex-col flex-1 p-4 sm:mt-3 rounded-xl">
+                <h1 class="text-3xl font-bold text-center"> {{ __('menu.login') }}</h1>
 
+                <p class="my-4 text-center text-gray-600"> {{ __('menu.enter_details') }} </p>
+                <form action="{{ route('user.login') }}"  method="post" class="space-y-4">
+                    @csrf
 
-            <!-- /.login-card-body -->
+                    <div class="flex flex-col flex-1 w-full gap-3 mb-4">
+                        <label class="font-bold">{{ __('menu.email') }} <span class="text-red-500">*</span></label>
+                        <input type="text" name="email" value="" placeholder="{{ __('menu.email') }}"
+                            id="phone"
+                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                            required />
+                    </div>
+                    <!-- Password -->
+                    <div class="flex flex-col w-full gap-3">
+                        <label class="font-bold">{{ __('menu.password') }} <span class="text-red-500">*</span></label>
+                        <input type="password" value="" name="password" placeholder="{{ __('menu.password') }} "
+                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                            required />
+                    </div>
+                    <div class="flex items-center justify-between w-full mt-4">
+                        <a class="p-2 text-blue-600 hover:text-blue-800" href="">{{ __('menu.forgot_password') }}</a>
+                        <a class="p-2 font-bold text-green-600 hover:text-green-800"
+                            href="{{ route('subscribe') }}">{{ __('menu.register') }}</a>
+
+                    </div>
+                    <!-- Submit Button -->
+                    <button type="submit"
+                        class="w-full p-3 px-6 py-3 my-4 text-white bg-green-600 rounded hover:bg-green-700">{{ __('menu.login') }}
+                    </button>
+
+                </form>
+            </div>
         </div>
-    </div>
-    <!-- /.login-box -->
-
-    <!-- jQuery -->
-    <script src="{{ asset('assets/admin/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-</body>
-
-</html>
+    </section>
+@endsection

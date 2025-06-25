@@ -5720,8 +5720,8 @@ fieldset:disabled .btn {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #cb0c9f;
-  border-color: #cb0c9f;
+  background-color: #16A34A;
+  border-color: #16A34A;
 }
 
 .page-item.disabled .page-link {
@@ -10216,7 +10216,7 @@ fieldset:disabled .btn {
 }
 
 .max-height-vh-100 {
-  max-height: 100vh !important;
+  min-height: 100vh !important;
 }
 
 .min-height-100 {
@@ -21619,8 +21619,8 @@ hr.horizontal.gray-light {
 }
 
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active {
-  color: #000;
-  background-color: #63b3ed;
+  color: #fff;
+  background-color: #16a34a;
 }
 
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active .icon {
@@ -24880,10 +24880,11 @@ pre[class*="language-"] {
   transition: background-color .2s linear, height .2s ease-in-out;
   -webkit-transition: background-color .2s linear, height .2s ease-in-out;
   height: 6px;
-  /* there must be 'bottom' for ps__thumb-x */
-  bottom: 2px;
-  /* please don't change 'position' */
-  position: absolute;
+  /*theremustbe'bottom'forps__thumb-x*/bottom: 2px;
+  /*pleasedon't change 'position'*/position: absolute;
+  -moz-transition: background-color .2s linear, height .2s ease-in-out;
+  -ms-transition: background-color .2s linear, height .2s ease-in-out;
+  -o-transition: background-color .2s linear, height .2s ease-in-out;
 }
 
 .ps__thumb-y {
@@ -24892,10 +24893,11 @@ pre[class*="language-"] {
   transition: background-color .2s linear, width .2s ease-in-out;
   -webkit-transition: background-color .2s linear, width .2s ease-in-out;
   width: 6px;
-  /* there must be 'right' for ps__thumb-y */
-  right: 2px;
-  /* please don't change 'position' */
-  position: absolute;
+  /*theremustbe'right'forps__thumb-y*/right: 2px;
+  /*pleasedon't change 'position'*/position: absolute;
+  -moz-transition: background-color .2s linear, width .2s ease-in-out;
+  -ms-transition: background-color .2s linear, width .2s ease-in-out;
+  -o-transition: background-color .2s linear, width .2s ease-in-out;
 }
 
 .ps__rail-x:hover>.ps__thumb-x,
@@ -24909,7 +24911,7 @@ pre[class*="language-"] {
 .ps__rail-y:focus>.ps__thumb-y,
 .ps__rail-y.ps--clicking .ps__thumb-y {
   background-color: #999;
-  width: 11px;
+  width: 14px;
 }
 
 /* MS supports */

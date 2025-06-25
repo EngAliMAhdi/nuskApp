@@ -16,19 +16,20 @@
 
                 <nav class="space-y-2">
                     <button data-tab="profile"
-                        class="w-full px-4 py-2 text-right text-white bg-green-600 rounded tab-button hover:bg-green-100">{{ __('menu.profile') }}
+                        class="w-full px-4 py-2 text-right text-white bg-green-600 rounded tab-button hover:bg-yellow-600">{{ __('menu.profile') }}
                     </button>
                     <button data-tab="orders"
-                        class="w-full px-4 py-2 text-right rounded tab-button hover:bg-yellow-600">{{ __('menu.orders') }}</button>
+                        class="w-full px-4 py-2 text-right rounded hover:text-white tab-button hover:bg-yellow-600">{{ __('menu.orders') }}</button>
                     {{-- <button data-tab="addresses"
                         class="w-full px-4 py-2 text-right rounded tab-button hover:bg-yellow-600">العناوين</button> --}}
-                    <button data-tab="password" class="w-full px-4 py-2 text-right rounded tab-button hover:bg-yellow-600">
+                    <button data-tab="password"
+                        class="w-full px-4 py-2 text-right rounded hover:text-white tab-button hover:bg-yellow-600">
                         {{ __('menu.change_password') }}</button>
                     <button data-tab="info"
-                        class="w-full px-4 py-2 text-right rounded tab-button hover:bg-yellow-600">{{ __('menu.additional_info') }}
+                        class="w-full px-4 py-2 text-right rounded hover:text-white tab-button hover:bg-yellow-600">{{ __('menu.additional_info') }}
                     </button>
                     <a href="{{ route('user.logout') }}"
-                        class="w-full px-4 py-2 text-right text-red-600 rounded hover:bg-yellow-600">
+                        class="block w-full py-2 text-right text-red-600 rounded blopx-4 hover:text-white hover:bg-yellow-600">
                         {{ __('menu.logout') }}</a>
                 </nav>
             </aside>
@@ -104,8 +105,14 @@
                         @csrf
                         <input type="password" name="current_password" placeholder="{{ __('menu.current_password') }}"
                             class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                        @error('current_password')
+                            <span class="text-sm text-red-500">{{ $message }}</span>
+                        @enderror
                         <input type="password" name="new_password" placeholder="{{ __('menu.new_password') }}"
                             class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                        @error('new_password')
+                            <span class="text-sm text-red-500">{{ $message }}</span>
+                        @enderror
                         <button
                             class="px-6 py-2 text-white bg-green-600 rounded hover:bg-green-700">{{ __('menu.update') }}</button>
                     </form>
@@ -150,10 +157,12 @@
                                 class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
                                 required>
                                 <option value="">{{ __('menu.choose') }}</option>
-                                <option value="male" {{ Auth::user()->account->gender == 'male' ? 'selected' : '' }}>
+                                <option value="male"
+                                    {{ isset(Auth::user()->account->gender) && Auth::user()->account->gender == 'male' ? 'selected' : '' }}>
                                     {{ __('menu.male') }}
                                 </option>
-                                <option value="female" {{ Auth::user()->account->gender == 'female' ? 'selected' : '' }}>
+                                <option value="female"
+                                    {{ isset(Auth::user()->account->gender) && Auth::user()->account->gender == 'female' ? 'selected' : '' }}>
                                     {{ __('menu.female') }}</option>
                             </select>
                         </div>

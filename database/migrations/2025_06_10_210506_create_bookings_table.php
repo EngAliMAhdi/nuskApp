@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
             $table->decimal('total_price', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'processing', 'cancelled'])->nullable()->default('pending');
+            $table->enum('status', ['pending', 'processing','completed', 'cancelled'])->nullable()->default('pending');
             $table->enum('method_paid', ['cash', 'credit_card'])->nullable();
             $table->string('payment_status')->default('pending');
             $table->string('payment_reference')->nullable();

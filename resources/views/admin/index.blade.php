@@ -16,7 +16,7 @@
                                 </div>
                             </div>
                             <div class="col-4 text-start">
-                                <div class="text-center shadow icon icon-shape bg-gradient-info border-radius-md">
+                                <div class="text-center shadow icon icon-shape bg-gradient-success border-radius-md">
                                     <i class="text-lg ni ni-circle-08 opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="col-4 text-start">
-                                <div class="text-center shadow icon icon-shape bg-gradient-info border-radius-md">
+                                <div class="text-center shadow icon icon-shape bg-gradient-success border-radius-md">
                                     <i class="text-lg ni ni-building opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="col-4 text-start">
-                                <div class="text-center shadow icon icon-shape bg-gradient-info border-radius-md">
+                                <div class="text-center shadow icon icon-shape bg-gradient-success border-radius-md">
                                     <i class="text-lg ni ni-shop opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <div class="col-4 text-start">
-                                <div class="text-center shadow icon icon-shape bg-gradient-info border-radius-md">
+                                <div class="text-center shadow icon icon-shape bg-gradient-success border-radius-md">
                                     <i class="text-lg ni ni-bus-front-12 opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                             <div class="col-4 text-start">
-                                <div class="text-center shadow icon icon-shape bg-gradient-info border-radius-md">
+                                <div class="text-center shadow icon icon-shape bg-gradient-success border-radius-md">
                                     <i class="text-lg ni ni-delivery-fast opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                                 </div>
                             </div>
                             <div class="col-4 text-start">
-                                <div class="text-center shadow icon icon-shape bg-gradient-info border-radius-md">
+                                <div class="text-center shadow icon icon-shape bg-gradient-success border-radius-md">
                                     <i class="text-lg ni ni-single-02 opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -238,7 +238,7 @@
                             <div class="py-3 col-3 ps-0">
                                 <div class="mb-2 d-flex">
                                     <div
-                                        class="text-center shadow icon icon-shape icon-xxs border-radius-sm bg-gradient-info ms-2 d-flex align-items-center justify-content-center">
+                                        class="text-center shadow icon icon-shape icon-xxs border-radius-sm bg-gradient-success ms-2 d-flex align-items-center justify-content-center">
                                         <svg width="10px" height="10px" viewBox="0 0 40 40" version="1.1"
                                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                             <title>spaceship</title>
@@ -461,7 +461,7 @@
                                                 </div>
                                             </div>
                                             <div class="progress">
-                                                <div class="progress-bar bg-gradient-info w-60" role="progressbar"
+                                                <div class="progress-bar bg-gradient-success w-60" role="progressbar"
                                                     aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
@@ -503,7 +503,7 @@
                                                 </div>
                                             </div>
                                             <div class="progress">
-                                                <div class="w-10 progress-bar bg-gradient-info" role="progressbar"
+                                                <div class="w-10 progress-bar bg-gradient-success" role="progressbar"
                                                     aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
@@ -632,7 +632,7 @@
                                                 </div>
                                             </div>
                                             <div class="progress">
-                                                <div class="progress-bar bg-gradient-info w-25" role="progressbar"
+                                                <div class="progress-bar bg-gradient-success w-25" role="progressbar"
                                                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="25"></div>
                                             </div>
                                         </div>
@@ -674,7 +674,7 @@
                                                 </div>
                                             </div>
                                             <div class="progress">
-                                                <div class="w-40 progress-bar bg-gradient-info" role="progressbar"
+                                                <div class="w-40 progress-bar bg-gradient-success" role="progressbar"
                                                     aria-valuenow="40" aria-valuemin="0" aria-valuemax="40"></div>
                                             </div>
                                         </div>

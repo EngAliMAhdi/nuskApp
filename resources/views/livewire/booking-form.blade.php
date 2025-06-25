@@ -36,7 +36,7 @@
             </div>
 
             <button wire:click.prevent="removePerson({{ $index }})"
-                class="absolute text-sm text-red-500 top-4 {{ App::getLocale()=='ar'? 'left-4':'right-4' }} hover:text-red-700">{{ __('menu.remove') }}</button>
+                class="absolute text-sm text-red-500 top-4 {{ App::getLocale() == 'ar' ? 'left-4' : 'right-4' }} hover:text-red-700">{{ __('menu.remove') }}</button>
         </div>
     @endforeach
     <button wire:click.prevent="addPerson"
@@ -46,13 +46,10 @@
 
 
     <div class="flex flex-wrap items-center justify-between gap-4">
-        <div class="">
-            <select wire:model.live="payment_method"
-                class="block w-full mt-1 border-gray-300 rounded-md input md:w-1/2">
-                <option value="cash"> {{ __('menu.payment_method_cash') }}</option>
-                <option value="credit_card"> {{ __('menu.payment_method_card') }}</option>
-            </select>
-        </div>
+        <select wire:model.live="payment_method" class="block w-1/2 mt-1 border-gray-300 rounded-md input md:w-1/2">
+            <option value="cash"> {{ __('menu.payment_method_cash') }}</option>
+            <option value="credit_card"> {{ __('menu.payment_method_card') }}</option>
+        </select>
         <p class="text-green-600"> {{ $total ? $total . ' ر.س' : '' }}</p>
         <button wire:click="save"
             class="px-6 py-2 font-semibold text-white transition bg-green-600 rounded-lg shadow-lg hover:bg-green-700">

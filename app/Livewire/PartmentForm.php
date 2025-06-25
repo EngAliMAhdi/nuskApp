@@ -39,6 +39,7 @@ class PartmentForm extends Component
             'name' => '',
             'hotel_id' => '',
             'price' => '',
+            'sale_price' => '',
         ];
     }
 
@@ -92,6 +93,7 @@ class PartmentForm extends Component
             Service::create([
                 'name' => $room['name'],
                 'price' => $room['price'],
+                'sale_price' => $room['price'],
                 'hotel_id' => $this->hotelId,
                 'added_by' => Auth::id(),
             ]);

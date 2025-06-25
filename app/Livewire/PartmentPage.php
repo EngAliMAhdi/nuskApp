@@ -4,9 +4,12 @@ namespace App\Livewire;
 
 use App\Models\Partment;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class PartmentPage extends Component
 {
+    use WithPagination;
+
     public $name;
     public $city;
 
@@ -19,7 +22,7 @@ class PartmentPage extends Component
         if ($this->city) {
             $query->where('city', $this->city);
         }
-        $data = $query->get();
+        $data = $query->paginate(10);
         return view('livewire.partment-page', compact('data'));
     }
 }

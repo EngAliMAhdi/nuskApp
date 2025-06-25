@@ -77,6 +77,9 @@
                                                 <option value="processing"
                                                     {{ $item->status == 'processing' ? 'selected' : '' }}>قيد المعالجة
                                                 </option>
+                                                <option value="completed"
+                                                    {{ $item->status == 'completed' ? 'selected' : '' }}>مكتمل
+                                                </option>
                                                 <option value="cancelled"
                                                     {{ $item->status == 'cancelled' ? 'selected' : '' }}>ملغي
                                                 </option>

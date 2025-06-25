@@ -3,11 +3,13 @@
 namespace App\Livewire;
 
 use App\Models\Hotel;
+use App\Models\HotelImage;
 use App\Models\Room;
 use App\Models\Service;
 use App\Models\User;
 use App\Notifications\LocalNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -36,6 +38,8 @@ class HotelForm extends Component
             'name' => '',
             'hotel_id' => '',
             'price' => '',
+            'sale_price' => ''
+
         ];
     }
 
@@ -53,6 +57,7 @@ class HotelForm extends Component
             'number' => '',
             'beds' => '',
             'price' => '',
+            'sale_price' => '',
             'service' => []
         ];
     }
@@ -70,6 +75,7 @@ class HotelForm extends Component
                 'cost_price' => $room['price'],
                 'beds_count' => $room['beds'],
                 'number' => $room['number'],
+                'sale_price' => $room['sale_price'],
                 'hotel_id' => $this->hotelId,
                 'added_by' => Auth::id(),
             ]);
@@ -89,6 +95,7 @@ class HotelForm extends Component
             Service::create([
                 'name' => $room['name'],
                 'price' => $room['price'],
+                'sale_price' => $room['sale_price'],
                 'hotel_id' => $this->hotelId,
                 'added_by' => Auth::id(),
             ]);
@@ -112,16 +119,48 @@ class HotelForm extends Component
             'name' => $this->name,
             'city' => $this->city,
             'added_by' => $user->id,
+            'images' => ''
         ];
-
         if ($this->image) {
-            $path = $this->image->store('hotels', 'public');
+            $path = $this->image->storeAs('hotels', uniqid() . '.' . $this->image->getClientOriginalExtension(), 'public');
             $data['images'] = $path;
         }
-
         $hotel = Hotel::create($data);
         $this->hotelId = $hotel->id;
         $this->show = true;
+        $response = Http::withHeaders([
+            'X-RapidAPI-Key' => '62c77e61fdmsh400b03eb234c14ep1e3ecajsn77a75fb1c74e',
+            'X-RapidAPI-Host' => 'booking-com.p.rapidapi.com',
+        ])->get('https://booking-com.p.rapidapi.com/v1/hotels/locations', [
+            'name' => $this->name,
+            'locale' => 'ar'
+        ]);
+
+        $results = $response->json();
+        $firstResult = collect($results)->firstWhere('dest_type', 'hotel');
+
+        $hotelId = $firstResult['dest_id'] ?? null;
+
+        $photosResponse = Http::withHeaders([
+            'X-RapidAPI-Key' => '62c77e61fdmsh400b03eb234c14ep1e3ecajsn77a75fb1c74e',
+            'X-RapidAPI-Host' => 'booking-com.p.rapidapi.com',
+        ])->get('https://booking-com.p.rapidapi.com/v1/hotels/photos', [
+            'hotel_id' => $hotelId,
+            'locale' => 'ar'
+        ]);
+
+        $photos = $photosResponse->json();
+        if ($photos) {
+            foreach ($photos as $photo) {
+                $imageUrl = $photo['url_original'] ?? $photo['url_max'] ?? $photo['url'] ?? null;
+                if (isset($imageUrl)) {
+                    HotelImage::create([
+                        'hotel_id' => $hotel->id,
+                        'image_url' => $imageUrl,
+                    ]);
+                }
+            }
+        }
         if ($hotel) {
             $users = User::whereIn('role', ['admin', 'superadmin'])
                 ->where('active', 1)

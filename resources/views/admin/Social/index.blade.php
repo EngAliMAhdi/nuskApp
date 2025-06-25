@@ -12,7 +12,7 @@
             <div class="mb-4 card">
                 <div class="pb-0 card-header d-felx ">
                     <h6>وسائل التواصل </h6>
-                    <a href="{{ route('social.edit') }}" class="btn btn-info btn-sm">
+                    <a href="{{ route('social.edit', $data->id) }}" class="btn btn-info btn-sm">
                         <i class="bi bi-plus-circle me-1"></i> تعديل
                     </a>
 

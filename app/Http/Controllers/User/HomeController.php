@@ -47,6 +47,7 @@ class HomeController extends Controller
         $data = About::all();
         return view('user.about', compact('data'));
     }
+    
     public function package($id)
     {
         $data = [];
@@ -108,8 +109,12 @@ class HomeController extends Controller
     {
         return view('user.term');
     }
-      public function privacy()
+    public function privacy()
     {
         return view('user.privacy');
+    }
+    public function register()
+    {
+        return view('user.auth.user');
     }
 }

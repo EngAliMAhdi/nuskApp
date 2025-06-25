@@ -50,7 +50,7 @@
                     <div class="mx-auto col-lg-4 col-md-8 col-12">
                         <div class="card z-index-0 fadeIn3 fadeInBottom">
                             <div class="p-0 mx-3 card-header position-relative mt-n4 z-index-2">
-                                <div class="py-3 bg-gradient-info shadow-primary border-radius-lg pe-1">
+                                <div class="py-3 bg-gradient-success shadow-primary border-radius-lg pe-1">
                                     <h4 class="mt-2 mb-0 text-center text-white font-weight-bolder"> نسك للعمرة</h4>
                                     <div class="mt-3 row">
                                         <div class="text-center col-2 ms-auto">
@@ -86,7 +86,7 @@
                                     </div>
 
                                     <div class="text-center">
-                                        <button type="submit" class="my-4 mb-2 btn bg-gradient-info w-100">تسجيل
+                                        <button type="submit" class="my-4 mb-2 btn bg-gradient-success w-100">تسجيل
                                             دخول</button>
                                     </div>
 

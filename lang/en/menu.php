@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'title' => 'Nusok al-Umrah',
+    'objective' => 'To provide an accessible spiritual experience for Muslims to perform Umrah rituals with ease, offering all necessary information and services.',
     'home' => 'Home',
     'packages' => 'Packages',
     'about' => 'About Us',
@@ -99,7 +101,7 @@ return [
     'your_message_with_service' => 'Your message with the type of service and desired booking dates',
     'send_now' => 'Send Now',
     'contact_us_better_info' => 'Contact us for better information',
-    'saudi_arabia' => 'Saudi Arabia, Kingdom of Saudi Arabia',
+    'saudi_arabia' => 'Saudi Arabia, Al-Qassim - King Abdulaziz Street',
     'whatsapp_number' => 'WhatsApp Number',
     'nationality' => 'Nationality',
     'national_id' => 'National ID',

@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\SocialController;
+use App\Http\Controllers\AirTransportsController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\User\LoginController as UserLoginController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
@@ -10,45 +14,42 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use App\Http\Controllers\Message;
+use App\Http\Controllers\OtherServicesController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PartmentController;
+use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\TransportController;
+use App\Http\Controllers\User\HomeController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/user', function () {
-
-    return view('user.auth.login');
-});
-// Route::get('/hotel', function () {
-
-//     return view('admin.Hotel.create11');
-// })->name('httt');
-// Route::get('/user', function () {
-
-//     return view('admin.User.create11');
-// })->name('httt1');
-// Route::get('/', [UserController::class, 'index1'])->name('hotels.index1');
+use Illuminate\Support\Facades\Session;
 
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        if (Auth::user()->role == 'superadmin') {
-            return redirect()->route('admin.dashboard');
-        } elseif (Auth::user()->role == 'User') {
-            return redirect()->route('user.dashboard');
-        }
+Route::get('change-language/{lang}', function ($lang) {
+    if (in_array($lang, ['en', 'ar'])) {
+        Session::put('locale', $lang);
+        App::setLocale($lang);
     }
-    return view('admin.auth.login');
+    return Redirect::back();
+})->name('change.language');
+Route::middleware('set_lang')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/packages', [HomeController::class, 'packages'])->name('package.index');
+    Route::get('/about-us', [HomeController::class, 'about'])->name('about');
+    Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
+    Route::get('/terms', [HomeController::class, 'term'])->name('term.index');
+    Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy.index');
+    Route::post('/inquiry', [HomeController::class, 'store'])->name('inquiry.store');
+    Route::get('/create/user', [HomeController::class, 'register'])->name('subscribe');
+    Route::post('/create/user', [UserLoginController::class, 'store'])->name('account.store');
+    Route::post('/create/company', [UserLoginController::class, 'store1'])->name('account.store1');
+    Route::get('/verify-otp', [UserLoginController::class, 'otp'])->name('otp');
+    Route::post('/verify-otp', [UserLoginController::class, 'verify'])->name('verify.otp');
+    Route::get('/package/{id}/info', [HomeController::class, 'package'])->name('package.show');
 });
 
-
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check_role:superadmin']], function () {
@@ -96,6 +97,42 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check_role:superadm
     Route::get('/vehicles/{id}/edit', [TransportController::class, 'vehicleEdit'])->name('vehicles.edit');
     Route::post('/vehicles/{id}', [TransportController::class, 'vehicleUpdate'])->name('vehicles.update');
 
+    Route::get('/air', [AirTransportsController::class, 'airIndex'])->name('air.index');
+    Route::get('/air/create', [AirTransportsController::class, 'airCreate'])->name('air.create');
+    Route::post('/air/store', [AirTransportsController::class, 'airStore'])->name('air.store');
+    Route::get('/air/{id}/edit', [AirTransportsController::class, 'airEdit'])->name('air.edit');
+    Route::post('/air/{id}/update', [AirTransportsController::class, 'airUpdate'])->name('air.update');
+
+    Route::get('/services', [OtherServicesController::class, 'serIndex'])->name('services.index');
+    Route::get('/services/create', [OtherServicesController::class, 'serCreate'])->name('services.create');
+    Route::post('/services/store', [OtherServicesController::class, 'serStore'])->name('services.store');
+    Route::get('/services/{id}/edit', [OtherServicesController::class, 'serEdit'])->name('services.edit');
+    Route::post('/services/{id}/update', [OtherServicesController::class, 'serUpdate'])->name('services.update');
+
+    Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+    Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
+    Route::post('/packages/store', [PackageController::class, 'store'])->name('packages.store');
+    Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
+    Route::get('/packages/{id}/edit', [PackageController::class, 'edit'])->name('packages.edit');
+    Route::post('/packages/{id}/update', [PackageController::class, 'update'])->name('packages.update');
+    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('packages.destroy');
+
+    // Discount routes
+    Route::get('/discount', [PackageController::class, 'showDiscount'])->name('discount.index');
+    Route::get('/discount/edit', [PackageController::class, 'editDiscount'])->name('discount.edit');
+    Route::post('/discount/{id}/update', [PackageController::class, 'updateDiscount'])->name('discount.update');
+
+    // Bouquet routes
+    Route::get('/bouquet', [PackageController::class, 'serIndex'])->name('bouquet.index');
+    Route::get('/bouquet/create', [PackageController::class, 'serCreate'])->name('bouquet.create');
+    Route::post('/bouquet/store', [PackageController::class, 'serStore'])->name('bouquet.store');
+    Route::get('/bouquet/{id}/edit', [PackageController::class, 'serEdit'])->name('bouquet.edit');
+    Route::post('/bouquet/{id}/update', [PackageController::class, 'serUpdate'])->name('bouquet.update');
+
+    // Booking routes
+    Route::get('/booking', [PackageController::class, 'booking'])->name('booking1.index');
+    Route::get('/booking/{id}/people', [PackageController::class, 'peopleBooking'])->name('package.pepole');
+
     Route::get('/notifications/mark-all-read', [UserController::class, 'markAllNotificationsAsRead'])->name('notifications.markAllRead');
 
     Route::get('/notifications/{id}/read', function ($id) {
@@ -105,10 +142,33 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check_role:superadm
         }
         return back()->with('success', 'تم تعليم الإشعار كمقروء.');
     })->name('notifications.read');
+
+    Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+    Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');
+    Route::post('/about', [AboutController::class, 'store'])->name('about.store');
+    Route::get('/about/{id}/edit', [AboutController::class, 'edit'])->name('about.edit');
+    Route::post('/about/{id}', [AboutController::class, 'update'])->name('about.update');
+    Route::delete('/about/{id}', [AboutController::class, 'destroy'])->name('about.delete');
+
+    Route::get('/social', [SocialController::class, 'index'])->name('social.index');
+    Route::get('/social/{id}/edit', [SocialController::class, 'edit'])->name('social.edit');
+    Route::post('/social/{id}', [SocialController::class, 'update'])->name('social.update');
+
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+    Route::get('/contact/{id}', [ContactController::class, 'show'])->name('contact.show');
 });
 
-Route::group(['prefix' => 'user', 'middleware' => ['auth', 'check_role:User']], function () {
+Route::group(['prefix' => 'user', 'middleware' => ['auth', 'check_role:user', 'set_lang']], function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/booking/{id}', [UserDashboardController::class, 'booking'])->name('booking.index');
+    Route::post('/profile/update', [UserDashboardController::class, 'updateProfile'])->name('user.profile.update');
+    Route::post('/profile/password/update', [UserDashboardController::class, 'updatePassword'])->name('user.password.update');
+    Route::post('/profile/account/store', [UserDashboardController::class, 'storeAccount'])->name('user.account.store');
+
+    Route::get('/booking/{id}/payment', [UserDashboardController::class, 'payment'])->name('user.payment');
+
+    Route::post('/paypal/process', [PayPalController::class, 'processTransaction'])->name('paypal.process');
+    Route::post('/paypal/capture', [PayPalController::class, 'captureTransaction'])->name('paypal.capture');
     Route::get('/logout', [UserLoginController::class, 'logout'])->name('user.logout');
 
 
@@ -122,10 +182,10 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'check_role:User']], 
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
-    Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
+    Route::get('/', [LoginController::class, 'showLogin'])->name('login.admin');
     Route::POST('login', [LoginController::class, 'login'])->name('admin.login');
 });
-Route::group(['prefix' => 'user', 'middleware' => 'guest'], function () {
-    Route::get('/login', [UserLoginController::class, 'showLogin'])->name('login.user');
+Route::group(['prefix' => 'user', 'middleware' => ['guest', 'set_lang']], function () {
+    Route::get('/login', [UserLoginController::class, 'showLogin'])->name('login');
     Route::POST('login', [UserLoginController::class, 'login'])->name('user.login');
 });

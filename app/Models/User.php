@@ -22,6 +22,11 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
+    public function account()
+    {
+        return $this->hasOne(Account::class);
+    }
+
     protected $fillable = [
         'email',
         'password',
@@ -32,7 +37,10 @@ class User extends Authenticatable
         'date',
         'delete_reason',
         'deleted_at',
-        'role'
+        'role',
+        'code',
+        'phone'
+
 
     ];
     public function addedby()

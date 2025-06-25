@@ -38,4 +38,8 @@ class Hotel extends Model
     {
         return $this->hasMany(Service::class, 'hotel_id');
     }
+    public function hotelImages()
+    {
+        return $this->hasMany(HotelImage::class);
+    }
 }

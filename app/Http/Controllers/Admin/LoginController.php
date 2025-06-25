@@ -14,13 +14,7 @@ class LoginController extends Controller
     //
     public function showLogin()
     {
-        // User::create([
-        //     'username' => 'admin',
-        //     'role' => 'superadmin',
-        //     'password' => bcrypt('password'),
-        //     'email' => 'admin@adimn.com',
-        //     'date' => date('Y-m-d')
-        // ]);
+
         if (Auth::check()) {
             return redirect()->route('admin.dashboard');
         }

@@ -71,7 +71,7 @@
                     </table>
                 </div>
             </div>
-            <div class="d-flex justify-content-center mt-4">
+            <div class="mt-4 d-flex justify-content-center">
                 {{ $data->links('pagination::bootstrap-4') }}
             </div>
 

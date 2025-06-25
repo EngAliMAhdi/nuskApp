@@ -82,6 +82,9 @@
                     </table>
                 </div>
             </div>
+            <div class="mt-4 d-flex justify-content-center">
+                {{ $data->links('pagination::bootstrap-4') }}
+            </div>
         </div>
     </div>
 

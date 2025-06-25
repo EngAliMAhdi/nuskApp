@@ -5,9 +5,12 @@ namespace App\Livewire;
 use App\Models\Driver;
 use App\Models\Transport;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class TransportPage extends Component
 {
+    use WithPagination;
+
     public $name;
     protected $listeners = ['delete-item' => 'deleteItem'];
 
@@ -29,7 +32,7 @@ class TransportPage extends Component
             $query->where('name', 'like', '%' . $this->name . '%');
         }
 
-        $data = $query->get();
+        $data = $query->paginate(10);
         return view('livewire.transport-page', compact('data'));
     }
 }
