@@ -20,8 +20,10 @@
                     </button>
                     <button data-tab="orders"
                         class="w-full px-4 py-2 text-right rounded hover:text-white tab-button hover:bg-yellow-600">{{ __('menu.orders') }}</button>
-                    {{-- <button data-tab="addresses"
-                        class="w-full px-4 py-2 text-right rounded tab-button hover:bg-yellow-600">العناوين</button> --}}
+                    <a href="{{ route('user.travel-booking.index') }}"
+                        class="block w-full px-4 py-2 text-right rounded hover:text-white hover:bg-yellow-600">{{ __('menu.travel_bookings') }}</a>
+                    <button data-tab="visit"
+                        class="w-full px-4 py-2 text-right rounded tab-button hover:bg-yellow-600">{{ __('menu.visits') }}</button>
                     <button data-tab="password"
                         class="w-full px-4 py-2 text-right rounded hover:text-white tab-button hover:bg-yellow-600">
                         {{ __('menu.change_password') }}</button>
@@ -57,10 +59,10 @@
                 </div>
 
                 <!-- الطلبات -->
-                <div data-content="orders" class="hidden tab-content">
+                <div data-content="orders" class="hidden overflow-auto tab-content">
                     <h3 class="mb-4 text-xl font-bold text-green-700">{{ __('menu.my_orders') }} </h3>
                     @if (isset($data) & !empty($data) & (count($data) > 0))
-                        <table class="min-w-full my-3 overflow-auto bg-white border border-gray-300 rounded-lg shadow-md">
+                        <table class="min-w-full my-3 bg-white border border-gray-300 rounded-lg shadow-md">
                             <thead class="bg-gray-100">
                                 <tr>
                                     <th class="px-6 py-3 text-center border-b">{{ __('menu.package') }} </th>
@@ -69,6 +71,8 @@
                                     <th class="px-6 py-3 text-center border-b">{{ __('menu.status') }}</th>
                                     <th class="px-6 py-3 text-center border-b"> {{ __('menu.payment_method') }}</th>
                                     <th class="px-6 py-3 text-center border-b">{{ __('menu.payment_status') }} </th>
+                                    <th class="px-6 py-3 text-center border-b">{{ __('menu.control') }} </th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,12 +82,19 @@
                                         <td class="px-6 py-3 text-center border-b">{{ count($item->people) }}</td>
                                         <td class="px-6 py-3 text-center border-b">{{ $item->total_price }}</td>
                                         <td class="px-6 py-3 text-center border-b">
-                                            {{ $item->status == 'pending' ? __('menu.pending') : __('menu.processing') }}
+                                            {{ __('menu.' . $item->status) }}
                                         </td>
                                         <td class="px-6 py-3 text-center border-b">
-                                            {{ $item->method_paid == 'cash' ? __('menu.cash') : __('menu.prepaid') }}</td>
+                                            {{ __('menu.' . $item->method_paid) }}
+                                        </td>
                                         <td class="px-6 py-3 text-center border-b">
                                             {{ $item->payment_status == 'paid' ? __('menu.paid') : __('menu.unpaid') }}
+                                        </td>
+                                        <td class="px-6 py-3 text-center border-b">
+                                            @if ($item->status == 'pending')
+                                                <a href="{{ route('booking.cancel', $item->id) }}"
+                                                    class="text-red-600 hover:underline">{{ __('menu.cancel_booking') }}</a>
+                                            @endif
                                         </td>
 
                                     </tr>
@@ -205,8 +216,66 @@
 
 
                         <button type="submit" class="px-6 py-2 text-white bg-green-600 rounded hover:bg-green-700">
-                            حفظ المعلومات
-                        </button>
+                            {{ __('menu.save_info') }} </button>
+                    </form>
+                </div>
+
+
+                <div data-content="visit" class="hidden tab-content">
+                    <h3 class="mb-4 text-xl font-bold text-green-700">{{ __('menu.additional_info') }} </h3>
+
+                    <form class="space-y-2" method="POST" action="{{ route('user.account.store') }}">
+                        @csrf
+
+
+                        <div>
+                            <label class="block mb-1 text-right text-gray-700">{{ __('menu.first_name') }} </label>
+                            <input type="text" name="f_name"
+                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                                required>
+                        </div>
+
+                        <div>
+                            <label class="block mb-1 text-right text-gray-700">{{ __('menu.last_name') }} </label>
+                            <input type="text" name="l_name"
+                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                                required>
+                        </div>
+
+                        <div>
+                            <label class="block mb-1 text-right text-gray-700">{{ __('menu.gender') }}</label>
+                            <select name="gender"
+                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                                required>
+                                <option value="">{{ __('menu.choose') }}</option>
+                                <option value="male">
+                                    {{ __('menu.male') }}
+                                </option>
+                                <option value="female">
+                                    {{ __('menu.female') }}</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block mb-1 text-right text-gray-700">{{ __('menu.country') }}</label>
+                            <input type="text" name="country"
+                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                                required>
+                        </div>
+
+                        <div>
+                            <label class="block mb-1 text-right text-gray-700">{{ __('menu.city') }}</label>
+                            <input type="text" name="city"
+                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                                required>
+                        </div>
+
+
+
+
+
+                        <button type="submit" class="px-6 py-2 text-white bg-green-600 rounded hover:bg-green-700">
+                            {{ __('menu.save_info') }} </button>
                     </form>
                 </div>
 

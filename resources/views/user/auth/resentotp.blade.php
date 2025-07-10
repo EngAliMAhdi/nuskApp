@@ -22,7 +22,7 @@
                 تحقق
             </button>
         </form>
-
+        <p class="mt-4 text-sm text-gray-600"> {{ __('menu.did_not_receive_code') }}
         <form method="POST" action="{{ route('resend.code') }}" id="resend-form">
             @csrf
             <input type="hidden" name="phone" value="{{ $phone }}">
@@ -33,7 +33,7 @@
                 </button>
             </p>
         </form>
-
+        </p>
     </div>
 @endsection
 @section('script')

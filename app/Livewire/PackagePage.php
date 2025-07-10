@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\OtherService;
 use App\Models\Package;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -30,6 +31,9 @@ class PackagePage extends Component
         if ($data) {
             $data->delete();
             session()->flash('success', 'تم الحذف بنجاح.');
+            if (Auth::user()->role == 'company') {
+                return redirect()->route('packages1.index');
+            }
             return redirect()->route('packages.index');
         }
     }
@@ -38,6 +42,9 @@ class PackagePage extends Component
         $query = Package::with(['hotel', 'room'])->latest();
         if ($this->name) {
             $query->where('name', 'like', '%' . $this->name . '%');
+        }
+        if (Auth::user()->role == 'company') {
+            $query->where('created_by', Auth::user()->id);
         }
 
         $data = $query->paginate(10);

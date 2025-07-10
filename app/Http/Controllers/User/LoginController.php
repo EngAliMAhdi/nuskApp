@@ -22,7 +22,7 @@ class LoginController extends Controller
     {
         if (Auth::guard('web')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
 
-            return redirect()->route('user.dashboard');
+            return redirect()->route('home')->with('success', 'تم تسجيل الدخول بنجاح');
         } else {
             return redirect()->route('login')->with('error', 'عفوا بيانات التسجيل غير صحيحة !!');
         }
@@ -132,5 +132,24 @@ class LoginController extends Controller
         }
 
         return redirect()->route('home')->with('error', 'رمز التحقق غير صحيح أو رقم الهاتف غير مسجل')->withInput();
+    }
+    public function resentCode(Request $request)
+    {
+        $otp = rand(100000, 999999);
+
+        if (env('APP_MODE') == 'test') {
+            $otp = '123456';
+        } else {
+            // $this->sendSms1($request->phone, $otp);
+        }
+
+        User::where('phone', $request->phone)->update([
+            'code' => $otp
+        ]);
+
+        session()->flash('success', 'تم إعادة إرسال رمز التحقق بنجاح');
+        return view('user.auth.otp', [
+            'phone' => $request->phone
+        ])->with('success', 'تم إعادة إرسال رمز التحقق بنجاح');
     }
 }

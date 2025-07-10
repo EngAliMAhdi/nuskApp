@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main1')
 @section('title')
     <a class="opacity-5 text-dark" href="javascript:;">
         الحجوزات</a>

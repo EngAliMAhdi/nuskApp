@@ -116,7 +116,7 @@
                                         </td>
 
                                         <td class="align-middle">
-                                            <a href="{{ route('package.pepole', $item->id) }}"
+                                            <a href="{{ Auth::user()->role == 'company' ? route('package2.pepole', $item->id) : route('package.pepole', $item->id) }}"
                                                 class="px-3 py-1 text-xs text-white btn badge badge-sm bg-gradient-info font-weight-bold"
                                                 data-toggle="tooltip" data-original-title="تعديل الطائرة">
                                                 بيانات الأفراد

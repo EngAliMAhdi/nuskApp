@@ -12,10 +12,22 @@
                     <i class="fas fa-user"></i>
                 </a>
             @else
-                <a href="{{ route('user.dashboard') }}"
-                    class="flex items-center justify-center w-10 h-10 text-2xl text-green-700 bg-green-100 rounded-full">
-                    <i class="fas fa-user"></i>
-                </a>
+                @if (Auth::user()->role == 'user')
+                    <a href="{{ route('user.dashboard') }}"
+                        class="flex items-center justify-center w-10 h-10 text-2xl text-green-700 bg-green-100 rounded-full">
+                        <i class="fas fa-user"></i>
+                    </a>
+                @elseif(Auth::user()->role == 'admin')
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center justify-center w-10 h-10 text-2xl text-green-700 bg-green-100 rounded-full">
+                        <i class="fas fa-user-shield"></i>
+                    </a>
+                @elseif(Auth::user()->role == 'company')
+                    <a href="{{ route('company.dashboard') }}"
+                        class="flex items-center justify-center w-10 h-10 text-2xl text-green-700 bg-green-100 rounded-full">
+                        <i class="fas fa-building"></i>
+                    </a>
+                @endif
             @endguest
         </div>
 
@@ -33,7 +45,8 @@
                         {{ __('menu.packages') }}</a></li>
                 <li><a href="{{ route('about') }}" class="block text-lg hover:text-green-700">{{ __('menu.about') }}
                     </a></li>
-                <li><a href="{{ route('contact') }}" class="block text-lg hover:text-green-700">{{ __('menu.contact') }}
+                <li><a href="{{ route('contact') }}"
+                        class="block text-lg hover:text-green-700">{{ __('menu.contact') }}
                     </a></li>
                 <li><a href="{{ App::getLocale() == 'en' ? route('change.language', 'ar') : route('change.language', 'en') }}"
                         class="block text-lg hover:text-green-700">{{ App::getLocale() == 'en' ? 'AR' : 'EN' }} </a>

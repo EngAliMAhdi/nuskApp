@@ -5,10 +5,13 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\SocialController;
+use App\Http\Controllers\Admin\TravelBookingController as AdminTravelBookingController;
 use App\Http\Controllers\AirTransportsController;
+use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\User\LoginController as UserLoginController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\User\TravelBookingController;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -48,6 +51,8 @@ Route::middleware('set_lang')->group(function () {
     Route::get('/verify-otp', [UserLoginController::class, 'otp'])->name('otp');
     Route::post('/verify-otp', [UserLoginController::class, 'verify'])->name('verify.otp');
     Route::get('/package/{id}/info', [HomeController::class, 'package'])->name('package.show');
+    // web.php
+    Route::post('/resend-code', [UserLoginController::class, 'resentCode'])->name('resend.code');
 });
 
 
@@ -133,6 +138,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check_role:superadm
     Route::get('/booking', [PackageController::class, 'booking'])->name('booking1.index');
     Route::get('/booking/{id}/people', [PackageController::class, 'peopleBooking'])->name('package.pepole');
 
+    // Travel Booking routes
+    Route::get('/travel-booking', [AdminTravelBookingController::class, 'index'])->name('admin.travel-booking.index');
+    Route::get('/travel-booking/{id}', [AdminTravelBookingController::class, 'show'])->name('admin.travel-booking.show');
+    Route::patch('/travel-booking/{id}/status', [AdminTravelBookingController::class, 'updateStatus'])->name('admin.travel-booking.update-status');
+    Route::delete('/travel-booking/{id}', [AdminTravelBookingController::class, 'destroy'])->name('admin.travel-booking.destroy');
+
     Route::get('/notifications/mark-all-read', [UserController::class, 'markAllNotificationsAsRead'])->name('notifications.markAllRead');
 
     Route::get('/notifications/{id}/read', function ($id) {
@@ -166,11 +177,16 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'check_role:user', 's
     Route::post('/profile/account/store', [UserDashboardController::class, 'storeAccount'])->name('user.account.store');
 
     Route::get('/booking/{id}/payment', [UserDashboardController::class, 'payment'])->name('user.payment');
-
+    Route::get('/booking/cancel/{id}', [UserDashboardController::class, 'cancel'])->name('booking.cancel');
     Route::post('/paypal/process', [PayPalController::class, 'processTransaction'])->name('paypal.process');
     Route::post('/paypal/capture', [PayPalController::class, 'captureTransaction'])->name('paypal.capture');
     Route::get('/logout', [UserLoginController::class, 'logout'])->name('user.logout');
 
+    // Travel Booking Routes
+    Route::get('/travel-booking', [TravelBookingController::class, 'index'])->name('user.travel-booking.index');
+    Route::get('/travel-booking/create', [TravelBookingController::class, 'create'])->name('user.travel-booking.create');
+    Route::get('/travel-booking/{id}', [TravelBookingController::class, 'show'])->name('user.travel-booking.show');
+    Route::patch('/travel-booking/{id}/cancel', [TravelBookingController::class, 'cancel'])->name('user.travel-booking.cancel');
 
     Route::get('/notifications/{id}/read', function ($id) {
         $notification = Auth::user()->notifications()->where('id', $id)->first();
@@ -179,6 +195,29 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'check_role:user', 's
         }
         return back()->with('success', 'تم تعليم الإشعار كمقروء.');
     })->name('notifications.read1');
+});
+
+
+Route::group(['prefix' => 'company', 'middleware' => ['auth', 'check_role:company', 'set_lang']], function () {
+    Route::get('/dashboard', [CompanyController::class, 'index'])->name('company.dashboard');
+    Route::get('/packages', [CompanyController::class, 'packages'])->name('packages1.index');
+    Route::get('/packages/create', [CompanyController::class, 'create'])->name('packages1.create');
+    Route::post('/packages/store', [CompanyController::class, 'store'])->name('packages1.store');
+    Route::get('/packages/{id}', [CompanyController::class, 'show'])->name('packages1.show');
+    Route::get('/packages/{id}/edit', [CompanyController::class, 'edit'])->name('packages1.edit');
+    Route::post('/packages/{id}/update', [CompanyController::class, 'update'])->name('packages1.update');
+    Route::delete('/packages/{id}', [CompanyController::class, 'destroy'])->name('packages1.destroy');
+    Route::get('/booking', [CompanyController::class, 'booking'])->name('booking2.index');
+    Route::get('/booking/{id}/people', [CompanyController::class, 'peopleBooking'])->name('package2.pepole');
+
+    Route::get('/logout', [UserLoginController::class, 'logout'])->name('company.logout');
+    Route::get('/notifications/{id}/read', function ($id) {
+        $notification = Auth::user()->notifications()->where('id', $id)->first();
+        if ($notification) {
+            $notification->markAsRead();
+        }
+        return back()->with('success', 'تم تعليم الإشعار كمقروء.');
+    })->name('notifications.read2');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {

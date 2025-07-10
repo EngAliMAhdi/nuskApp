@@ -3,7 +3,8 @@
         <div class="mb-4 card">
             <div class="pb-0 card-header d-felx ">
                 <h6> الباقات </h6>
-                <a href="{{ route('packages.create') }}" class="btn btn-info btn-sm">
+                <a href="{{ Auth::user()->role == 'company' ? route('packages1.create') : route('packages.create') }}"
+                    class="btn btn-info btn-sm">
                     <i class="bi bi-plus-circle me-1"></i> إضافة باقة
                 </a>
 
@@ -82,14 +83,8 @@
                                         </td>
 
                                         <td>
-                                            <select wire:change="updateStatus({{ $item->id }}, $event.target.value)"
-                                                class="form-select">
-                                                <option value="pending"
-                                                    {{ $item->status == 'pending' ? 'selected' : '' }}>بانتظار الموافقة
-                                                </option>
-                                                <option value="approved"
-                                                    {{ $item->status == 'approved' ? 'selected' : '' }}>معتمدة</option>
-                                            </select>
+                                            <p class="mb-0 text-sm text-center font-weight-bold">
+                                                {{ $item->status != 'pending' ? 'نشط' : 'غير نشط' }}</p>
                                         </td>
 
 

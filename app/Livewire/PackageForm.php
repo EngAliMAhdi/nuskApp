@@ -84,22 +84,17 @@ class PackageForm extends Component
             'base_price' => $this->base_price ?? 0.00,
             'stop_points' => $this->stop_points ?? null,
             'notes' => $this->notes ?? null,
+            'created_by' => Auth::user()->id,
 
         ]);
 
-        // // Handle selected services
-        // if (!empty($this->selected_services)) {
-        //     foreach ($this->selected_services as $service1) {
-        //         $service = OtherService::find($service1);
-        //         $package->services()->attach($service['id'], [
-        //             'quantity' => $service['quantity'] ?? 1,
-        //             'extra_price' => $service['sale_price'] ?? 0.00,
-        //         ]);
-        //     }
-        // }
+
 
         session()->flash('success', 'تم إنشاء الباقة بنجاح');
-        return redirect()->route('packages.index'); // عدل حسب مسارك
+        if (Auth::user()->role == 'company') {
+            return redirect()->route('packages1.index');
+        }
+        return redirect()->route('packages.index');
     }
 
     public function render()

@@ -190,4 +190,32 @@ class PackageController extends BaseController
         $data->website = env("APP_URL");
         return $this->sendResponse($data, 'get Links');
     }
+    public function cancel(Request $request, $id)
+    {
+
+        $booking = Booking::find($id);
+        if (!$booking) {
+            return $this->sendError([], 'Booking not found.');
+        }
+        if ($booking->user_id != Auth::id()) {
+            return $this->sendError([], 'You are not authorized to cancel this booking.');
+        }
+        if ($booking->status == 'cancelled') {
+            return $this->sendError([], 'Booking already canceled.');
+        }
+        if ($booking->status != 'pending') {
+            return $this->sendError([], 'Booking cannot be canceled at this stage.');
+        }
+
+        $booking->update(['status' => 'cancelled']);
+        return $this->sendResponse([], 'Booking canceled successfully');
+    }
+    public function booking1()
+    {
+        $data = Booking::where('user_id', Auth::id())->with(['people', 'package'])->get();
+        if ($data->isEmpty()) {
+            return $this->sendResponse([], 'No Data Found');
+        }
+        return $this->sendResponse($data, 'Get Booking info successfully');
+    }
 }

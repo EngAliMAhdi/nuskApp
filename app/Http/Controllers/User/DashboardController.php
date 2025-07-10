@@ -97,4 +97,24 @@ class DashboardController extends Controller
         $booking = Booking::find($id);
         return view('user.payment', compact('booking'));
     }
+    public function cancel($id)
+    {
+
+        $booking = Booking::find($id);
+        if (!$booking) {
+            return redirect()->back()->with('error', 'الحجز غير موجود.');
+        }
+        if ($booking->user_id != Auth::id()) {
+            return redirect()->back()->with('error', 'لا يمكنك إلغاء حجز ليس لك.');
+        }
+        if ($booking->status == 'cancelled') {
+            return redirect()->back()->with('error', 'هذا الحجز تم إلغاؤه بالفعل.');
+        }
+        if ($booking->status != 'pending') {
+            return redirect()->back()->with('error', 'لا يمكنك إلغاء هذا الحجز لأنه في حالة غير قابلة للإلغاء.');
+        }
+
+        $booking->update(['status' => 'cancelled']);
+        return redirect()->back()->with('success', 'تم إلغاء الحجز بنجاح.');
+    }
 }
